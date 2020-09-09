@@ -15,7 +15,7 @@ architecture recognize of automaton is
     signal state: STATES := q0;
 
 begin
-    transition: process(input, state)
+    transition: process(input)
         if input = 'a' then
             case state is
                 when q0 => state <= a0;
