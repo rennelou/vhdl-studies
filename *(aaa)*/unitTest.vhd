@@ -38,6 +38,7 @@ entity unitTest is
 
         test: process
         begin    
+            wait for period;
             s_input <= 'b';
             wait for period;
             s_input <= 'a';
@@ -55,4 +56,12 @@ entity unitTest is
 
             wait;
         end process test;
+
+        verify: process(w_clock)
+        begin
+            if falling_edge(W_clock) then
+                write(output, "INPUT: " & character'image(s_input) &
+                              "OUTPUT: " & std_logic'image(s_accepted) & CR & LF);
+            end if;
+        end process verify;
     end test;
