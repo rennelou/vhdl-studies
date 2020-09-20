@@ -9,11 +9,10 @@ end unitTest;
 architecture test of unitTest is
     
     constant period: time := 10ns;    
-    constant number_cycle: integer := 20;
     component clock
         port(
             period: in time;
-            number_cycle: in integer;
+            enable: in std_logic;
             output: out std_logic
         );
     end component;
@@ -26,6 +25,7 @@ architecture test of unitTest is
         );
     end component;
     signal w_clock: std_logic := '0';
+    signal w_enable: std_logic := '1';
     signal s_reset: std_logic := '0';
     signal s_input: character;
     signal s_accepted: std_logic := '0';
@@ -33,7 +33,7 @@ architecture test of unitTest is
     file input_buf: text;
 
 begin
-    CLOCK1: clock port map(period, number_cycle, w_clock);
+    CLOCK1: clock port map(period, w_enable, w_clock);
     A0: automaton port map(w_clock, s_reset, s_input, s_accepted);
     
     test: process
@@ -70,6 +70,7 @@ begin
             
         end loop;
         
+        w_enable <= '0';
         file_close(input_buf);
         wait;
     end process test;
