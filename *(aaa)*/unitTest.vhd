@@ -50,10 +50,10 @@ begin
             write(wrline, string'("Input: "));
 
             for j in 1 to rdline'length loop
-                wait until rising_edge(W_clock);
+                wait until falling_edge(W_clock);
                 
                 s_input <= rdline(j);
-                wait until falling_edge(W_clock);
+                wait until rising_edge(W_clock);
                 
                 write(wrline, s_input);
             end loop;
@@ -63,9 +63,9 @@ begin
 
             writeline(output, wrline);
 
-            wait until rising_edge(W_clock);
-            s_reset <= '1';
             wait until falling_edge(W_clock);
+            s_reset <= '1';
+            wait until rising_edge(W_clock);
             s_reset <= '0';
             
         end loop;

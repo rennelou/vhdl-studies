@@ -1,3 +1,6 @@
+-- Usa estilo 1
+-- Saida assincronas
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 
@@ -24,15 +27,17 @@ begin
 
     transition: process(actual_state, input, s_reset)
     begin
-        if (input = 'a') then
-            case actual_state is
-                when q0 => next_state <= a0;
-                when a0 => next_state <= a1;
-                when a1 => next_state <= a2;
-                when a2 => next_state <= a2;
-            end case;
-        elsif falling_edge(s_reset) then
+        if falling_edge(s_reset) then
             next_state <= q0;
+        else
+            if (input = 'a') then
+                case actual_state is
+                    when q0 => next_state <= a0;
+                    when a0 => next_state <= a1;
+                    when a1 => next_state <= a2;
+                    when a2 => next_state <= a2;
+                end case;
+            end if;
         end if;
     end process transition;
     
