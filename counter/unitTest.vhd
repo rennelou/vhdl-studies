@@ -8,12 +8,11 @@ end unitTest;
 architecture test of unitTest is
     
     constant period: time := 10ns;    
-    constant number_cycle: integer := 20;
 
     component clock
         port(
             period: in time;
-            number_cycle: in integer;
+            enable: in std_logic;
             output: out std_logic
         );
     end component;
@@ -26,10 +25,13 @@ architecture test of unitTest is
     end component;
 
     signal w_clock: std_logic := '0';
+    signal w_enable: std_logic := '1';
     signal w_out: natural range 0 to 255;
 
 begin
     COUNTER1: counter port map(w_clock, w_out);
-    CLOCK1: clock port map(period, number_cycle, w_clock);
+    CLOCK1: clock port map(period, w_enable, w_clock);
+
+    w_enable <= '0' after 20*period;
 
 end test;
