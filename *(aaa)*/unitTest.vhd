@@ -49,46 +49,27 @@ begin
 
             write(wrline, string'("Input: "));
 
-            read(rdline, v_input);
-            s_input <= v_input;
-            write(wrline, s_input);
-            wait until falling_edge(W_clock);
-
-            read(rdline, v_input);
-            s_input <= v_input;
-            write(wrline, s_input);
-            wait until falling_edge(W_clock);
-
-            read(rdline, v_input);
-            s_input <= v_input;
-            write(wrline, s_input);
-            wait until falling_edge(W_clock);
-
-            read(rdline, v_input);
-            s_input <= v_input;
-            write(wrline, s_input);
-            wait until falling_edge(W_clock);
-
-            read(rdline, v_input);
-            s_input <= v_input;
-            write(wrline, s_input);
-            wait until falling_edge(W_clock);
+            for j in 1 to rdline'length loop
+                wait until rising_edge(W_clock);
+                
+                s_input <= rdline(j);
+                wait until falling_edge(W_clock);
+                
+                write(wrline, s_input);
+            end loop;
 
             write(wrline, string'(" Output: "));
             write(wrline, s_accepted);
 
             writeline(output, wrline);
+
+            wait until rising_edge(W_clock);
+            s_reset <= '1';
+            wait until falling_edge(W_clock);
+            s_reset <= '0';
+            
         end loop;
-
-        --for j in rdline'range loop
-        --    wait until rising_edge(W_clock);
-        --    s_input <= rdline(j);
-        --end loop;
         
-        s_reset <= '1';
-        wait until falling_edge(W_clock);
-        s_reset <= '0';
-
         file_close(input_buf);
         wait;
     end process test;
