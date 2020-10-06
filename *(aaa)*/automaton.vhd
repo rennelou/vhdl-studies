@@ -18,28 +18,34 @@ architecture recognize of automaton is
     signal actual_state, next_state: STATES := q0;
 
 begin
-    tick: process(clock, s_reset)
-    begin
-        if falling_edge(s_reset) then
-            actual_state <= q0;
-        elsif rising_edge(clock) then
-            actual_state <= next_state;
-        end if;
-    end process tick;
-
-    transition: process(actual_state, input)
-    begin
-        next_state <= actual_state;
-        if (input = 'a') then
-            case actual_state is
-                when q0 => next_state <= a0;
-                when a0 => next_state <= a1;
-                when a1 => next_state <= a2;
-                when a2 => next_state <= a2;
-            end case;
-        end if;
-    end process transition;
     
-    s_accepted <= '1' when actual_state = a2 else '0';
+    transition: process(s_reset, clock)
+    begin
 
+        if falling_edge(clock) then
+            actual_state <= next_state;
+
+            if next_state = a2 then
+                s_accepted <= '1';
+            else
+                s_accepted <= '0';
+            end if;
+        elsif rising_edge(clock) then
+            next_state <= actual_state;
+            
+            if input = 'a' then
+                case actual_state is
+                    when q0 => next_state <= a0;
+                    when a0 => next_state <= a1;
+                    when a1 => next_state <= a2;
+                    when a2 => next_state <= a2;
+                end case;
+            end if;
+        end if;
+        
+        if s_reset'event and s_reset = '0' then
+            next_state <= q0;
+        end if;
+        
+    end process transition;
 end recognize;
