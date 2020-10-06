@@ -15,7 +15,7 @@ end automaton;
 
 architecture recognize of automaton is
     type STATES is (q0, a0, a1, a2);
-    signal actual_state: STATES := q0;
+    signal state: STATES := q0;
 
 begin
     
@@ -24,15 +24,15 @@ begin
 
         if rising_edge(clock) then
             if input = 'a' then
-                case actual_state is
-                    when q0 => actual_state <= a0;
-                    when a0 => actual_state <= a1;
-                    when a1 => actual_state <= a2;
-                    when a2 => actual_state <= a2;
+                case state is
+                    when q0 => state <= a0;
+                    when a0 => state <= a1;
+                    when a1 => state <= a2;
+                    when a2 => state <= a2;
                 end case;
             end if;
         elsif falling_edge(clock) then
-            if actual_state = a2 then
+            if state = a2 then
                 s_accepted <= '1';
             else
                 s_accepted <= '0';
@@ -40,7 +40,7 @@ begin
         end if;
         
         if s_reset'event and s_reset = '0' then
-            actual_state <= q0;
+            state <= q0;
         end if;
         
     end process transition;
