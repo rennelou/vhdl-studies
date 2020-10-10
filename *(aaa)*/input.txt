@@ -1,4 +1,4 @@
-baaab
-bbbab
-bbbbbba
-aaabbbbb
+baaab.
+bbbab.
+bbbbbba.
+aaabbbbb.

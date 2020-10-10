@@ -19,14 +19,12 @@ architecture test of unitTest is
     component automaton
         port(
             clock: in std_logic;
-            s_reset: in std_logic;
             input: in character;
             s_accepted: out std_logic
         );
     end component;
     signal w_clock: std_logic := '0';
     signal w_enable: std_logic := '1';
-    signal s_reset: std_logic := '0';
     signal s_input: character;
     signal s_accepted: std_logic := '0';
 
@@ -34,7 +32,7 @@ architecture test of unitTest is
 
 begin
     CLOCK1: clock port map(period, w_enable, w_clock);
-    A0: automaton port map(w_clock, s_reset, s_input, s_accepted);
+    A0: automaton port map(w_clock, s_input, s_accepted);
     
     test: process
         variable rdline: line;
@@ -62,12 +60,6 @@ begin
             write(wrline, s_accepted);
 
             writeline(output, wrline);
-
-            wait until falling_edge(W_clock);
-            s_reset <= '1';
-            wait until rising_edge(W_clock);
-            s_reset <= '0';
-            
         end loop;
         
         w_enable <= '0';
