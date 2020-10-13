@@ -16,7 +16,7 @@ architecture test of unitTest is
             output: out std_logic
         );
     end component;
-    component automaton
+    component ab_automaton
         port(
             clock: in std_logic;
             in_alphabet: in character;
@@ -32,7 +32,7 @@ architecture test of unitTest is
 
 begin
     CLOCK1: clock port map(period, w_enable, w_clock);
-    A0: automaton port map(w_clock, in_alphabet, s_accepted);
+    A0: ab_automaton port map(w_clock, in_alphabet, s_accepted);
     
     test: process
         variable rdline: line;

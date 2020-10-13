@@ -1,15 +1,15 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-entity automaton is 
+entity ab_automaton is 
     port (
         clock: in std_logic;
         in_alphabet: in character;
         s_accepted: out std_logic
     );
-end automaton;
+end ab_automaton;
 
-architecture recognize of automaton is
+architecture recognize of ab_automaton is
     type STATES is (q0, a_state, b_state, rejected);
     signal state: STATES := q0;
 begin

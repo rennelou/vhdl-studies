@@ -4,15 +4,15 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 
-entity automaton is 
+entity aaa_automaton is 
     port(
         clock: in std_logic;
         input: in character;
         s_accepted: out std_logic
     );
-end automaton;
+end aaa_automaton;
 
-architecture recognize of automaton is
+architecture recognize of aaa_automaton is
     type STATES is (q0, a0, a1, a2);
     signal state: STATES := q0;
 
